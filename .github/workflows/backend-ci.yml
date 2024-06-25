@@ -32,13 +32,13 @@ jobs:
           node-version: ${{ matrix.node-version }}
 
       # Install the dependencies.
-      - run: cd starter/backend && npm ci
+      - run: cd starter/backend && pipenv install
 
       # Run the tests.
-      - run: cd starter/backend && npm test
+      - run: cd starter/backend && pipenv run test
 
       # Run the linter. 
-      - run: cd starter/backend && npm run lint
+      - run: cd starter/backend && pipenv run lint
 
       # Send a console message at completion.
       - run: |
