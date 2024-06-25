@@ -1,4 +1,4 @@
-name: ci-backend-workflow
+name: ci-starter/backend-workflow
 
 # Ensure the workflow runs on schedule (Sunday at 0:00) and on push to the main branch
 on:
@@ -32,13 +32,13 @@ jobs:
           node-version: ${{ matrix.node-version }}
 
       # Install the dependencies.
-      - run: cd backend && npm ci
+      - run: cd starter/backend && npm ci
 
       # Run the tests.
-      - run: cd backend && npm test
+      - run: cd starter/backend && npm test
 
       # Run the linter. 
-      - run: cd backend && npm run lint
+      - run: cd starter/backend && npm run lint
 
       # Send a console message at completion.
       - run: |
