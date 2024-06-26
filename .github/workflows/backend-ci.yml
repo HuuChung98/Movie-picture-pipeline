@@ -1,4 +1,4 @@
-name: ci-starter/backend-workflow
+name: ci-backend-workflow
 
 # Ensure the workflow runs on schedule (Sunday at 0:00) and on push to the main branch
 on:
@@ -31,14 +31,25 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install pipenv
+        run: pip install pipenv
+
+      - name: Install flake8
+        run: pip install flake8
+
       # Install the dependencies.
-      - run: cd starter/backend && npm ci
+      - run: cd starter/backend && pipenv install
 
       # Run the tests.
-      - run: cd starter/backend && npm test
+      - run: cd starter/backend && pipenv run test
 
       # Run the linter. 
-      - run: cd starter/backend && npm run lint
+      - run: cd starter/backend && pipenv run lint
 
       # Send a console message at completion.
       - run: |
