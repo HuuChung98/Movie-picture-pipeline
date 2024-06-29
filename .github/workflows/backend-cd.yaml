@@ -93,13 +93,13 @@ jobs:
         run: |
           aws eks update-kubeconfig --region us-east-1 --name cluster
           kubectl config view # Optional: To verify the kubeconfig content
-      - name: Setup Environment
-        run: |
-          cd setup
-          ./init.sh
+      # - name: Setup Environment
+      #   run: |
+      #     cd setup
+      #     ./init.sh
       - name: Deploy to Kubernetes
         run: |
           cd starter/backend/k8s 
           echo "Running Deploy to Kubernetes"
           kustomize edit set image backend=249802869937.dkr.ecr.us-east-1.amazonaws.com/backend:latest
-          kustomize build | kubectl apply --validate=false -f -
+          kustomize build | kubectl apply -f -
