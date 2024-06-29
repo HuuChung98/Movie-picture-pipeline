@@ -68,14 +68,14 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           # aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
           aws-region: us-east-1
-          
+
       - name: Login to AWS ECR
         uses: aws-actions/amazon-ecr-login@v1
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v4
         with:
-          context: .
+          context: ./starter/backend
           push: true
           tags: 249802869937.dkr.ecr.us-east-1.amazonaws.com/backend:latest
 
