@@ -83,10 +83,14 @@ jobs:
         uses: azure/setup-kubectl@v3
         with:
           version: 'latest'
+      - name: Install kustomize
+        run: | 
+          cd starter/frontend/k8s
+          npm install kustomize
           
       - name: Deploy to Kubernetes
         run: |
           cd starter/backend/k8s 
           echo "Running Deploy to Kubernetes"
           kustomize edit set image backend=249802869937.dkr.ecr.us-east-1.amazonaws.com/backend:latest
-          kustomize build | kubectl apply -f - --validate=false
+          kustomize build | kubectl apply --validate=false -f -
