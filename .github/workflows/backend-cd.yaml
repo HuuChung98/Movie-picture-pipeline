@@ -79,13 +79,10 @@ jobs:
           push: true
           tags: 249802869937.dkr.ecr.us-east-1.amazonaws.com/backend:latest
 
-      - name: Install kubectl
-        run: |
-          sudo apt-get update && sudo apt-get install -y apt-transport-https
-          sudo curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
-          echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
-          sudo apt-get update
-          sudo apt-get install -y kubectl
+      - name: Set up kubectl
+        uses: azure/setup-kubectl@v3
+        with:
+          version: 'latest'
           
       - name: Deploy to Kubernetes
         run: |
