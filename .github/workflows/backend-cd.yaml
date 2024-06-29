@@ -42,7 +42,7 @@ jobs:
       - name: Tests
         run: |
           cd starter/backend
-          pipenv test
+          pipenv run test
         continue-on-error: false
 
   deploy:
