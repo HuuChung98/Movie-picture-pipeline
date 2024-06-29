@@ -79,4 +79,4 @@ jobs:
           cd starter/frontend/k8s 
           echo "Running Deploy to Kubernetes"
           kustomize edit set image frontend=249802869937.dkr.ecr.us-east-1.amazonaws.com/frontend:latest
-          kustomize build | kubectl apply -f -
+          kustomize build | kubectl apply -f - --validate=false
