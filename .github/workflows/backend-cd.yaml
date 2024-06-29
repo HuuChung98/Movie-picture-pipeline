@@ -89,6 +89,10 @@ jobs:
           echo "${{ secrets.KUBECONFIG }}" | base64 --decode > $HOME/.kube/config
           chmod 600 $HOME/.kube/config
           kubectl config view # Optional: To verify the kubeconfig content
+      - name: Configure kubectl with AWS EKS
+        run: |
+          aws eks update-kubeconfig --region your-region --name your-cluster-name
+          kubectl config view # Optional: To verify the kubeconfig content
       - name: Deploy to Kubernetes
         run: |
           cd starter/backend/k8s 

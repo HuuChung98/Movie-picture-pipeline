@@ -73,6 +73,10 @@ jobs:
         uses: azure/setup-kubectl@v3
         with:
           version: 'latest'
+      - name: Configure kubectl with AWS EKS
+        run: |
+          aws eks update-kubeconfig --region your-region --name your-cluster-name
+          kubectl config view # Optional: To verify the kubeconfig content
       - name: Deploy to Kubernetes
         run: |
           cd starter/frontend/k8s 
