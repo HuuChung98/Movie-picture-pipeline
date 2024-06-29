@@ -87,6 +87,6 @@ jobs:
       - name: Deploy to Kubernetes
         run: |
           cd starter/backend/k8s 
-          echo "Running kubeconfig.yaml"
+          echo "${{ secrets.KUBECONFIG }}" > 
           kustomize edit set image backend=249802869937.dkr.ecr.us-east-1.amazonaws.com/backend:latest
           kustomize build | kubectl apply -f -
