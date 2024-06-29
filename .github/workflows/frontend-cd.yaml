@@ -76,6 +76,7 @@ jobs:
       - name: Deploy to Kubernetes
         run: |
           cd starter/frontend/k8s 
+          aws eks update-kubeconfig --region us-east-1 --name cluster
           echo "${{ secrets.KUBECONFIG }}" > kustomization.yaml
           kustomize edit set image frontend=249802869937.dkr.ecr.us-east-1.amazonaws.com/frontend:latest
           kustomize build | kubectl apply --validate=false -f -
