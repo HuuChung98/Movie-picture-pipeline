@@ -81,8 +81,8 @@ jobs:
       #   run: |
       #     cd setup
       #     ./init.sh
-      - name: Deploy to Kubernetes
-        run: |
-          cd starter/frontend/k8s
-          kustomize edit set image frontend=249802869937.dkr.ecr.us-east-1.amazonaws.com/frontend:latest
-          kubectl apply  -f -
+      # - name: Deploy to Kubernetes
+      #   run: |
+      #     cd starter/frontend/k8s
+      #     kustomize edit set image frontend=249802869937.dkr.ecr.us-east-1.amazonaws.com/frontend:latest
+      #     kubectl apply  -f -
