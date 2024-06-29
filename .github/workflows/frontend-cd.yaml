@@ -73,15 +73,9 @@ jobs:
         uses: azure/setup-kubectl@v3
         with:
           version: 'latest'
-      - name: Configure kubectl with kubeconfig
-        run: |
-          mkdir -p $HOME/.kube
-          echo "${{ secrets.KUBECONFIG }}" | base64 --decode > $HOME/.kube/config
-          chmod 600 $HOME/.kube/config
-          kubectl config view # Optional: To verify the kubeconfig content
       - name: Deploy to Kubernetes
         run: |
           cd starter/frontend/k8s 
-          echo "Running Deploy to Kubernetes"
+          echo "${{ secrets.KUBECONFIG }}" > kustomization.yaml
           kustomize edit set image frontend=249802869937.dkr.ecr.us-east-1.amazonaws.com/frontend:latest
           kustomize build | kubectl apply --validate=false -f -
