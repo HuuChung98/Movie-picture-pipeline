@@ -82,7 +82,7 @@ jobs:
       - name: Install kustomize
         run: | 
           cd starter/frontend/k8s
-          npm install kustomize-bin --save-dev
+          npm install kustomize
       - name: Deploy to Kubernetes
         run: |
           cd starter/frontend/k8s 
