@@ -73,13 +73,16 @@ jobs:
         uses: azure/setup-kubectl@v3
         with:
           version: 'latest'
-      - name: Configure kubectl with kubeconfig
-        run: |
-          mkdir -p $HOME/.kube
-          echo "${{ secrets.KUBECONFIG }}" > $HOME/.kube/config
-          chmod 600 $HOME/.kube/config
-          kubectl config view # Optional: To verify the kubeconfig content
-
+      # - name: Configure kubectl with kubeconfig
+      #   run: |
+      #     mkdir -p $HOME/.kube
+      #     echo "${{ secrets.KUBECONFIG }}" > $HOME/.kube/config
+      #     chmod 600 $HOME/.kube/config
+      #     kubectl config view # Optional: To verify the kubeconfig content
+      - name: Install kustomize
+        run: | 
+          cd starter/frontend/k8s
+          npm install kustomize-bin --save-dev
       - name: Deploy to Kubernetes
         run: |
           cd starter/frontend/k8s 
