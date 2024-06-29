@@ -85,5 +85,5 @@ jobs:
         run: |
           cd starter/frontend/k8s
           echo "${{ secrets.KUBECONFIG }}" > kustomization.yaml
-          kustomize edit set image frontend=249802869937.dkr.ecr.us-east-1.amazonaws.com/frontend:latest
+          # kustomize edit set image frontend=249802869937.dkr.ecr.us-east-1.amazonaws.com/frontend:latest
           kustomize build | kubectl apply -f -
