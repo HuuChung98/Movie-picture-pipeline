@@ -7,7 +7,7 @@ on:
       - main
 
 jobs:
-  build:
+  lint:
     runs-on: ubuntu-latest
 
     steps:
@@ -38,14 +38,39 @@ jobs:
         run: |
           cd starter/backend
           pipenv run lint
-        continue-on-error: false
-      - name: Tests
+
+  test:
+    needs: lint
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+  
+      - name: Install pipenv
+        run: pip install pipenv
+
+      - name: Install dependencies
+        run: |
+          cd starter/backend
+          pipenv install
+
+      - name: Run tests
         run: |
           cd starter/backend
           pipenv run test
-        continue-on-error: false
 
   deploy:
+    needs: [lint, test]
     runs-on: ubuntu-latest
 
     steps:
@@ -66,7 +91,6 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          # aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
           aws-region: us-east-1
 
       - name: Login to AWS ECR
@@ -86,12 +110,8 @@ jobs:
       - name: Configure kubectl with AWS EKS
         run: |
           aws eks update-kubeconfig --region us-east-1 --name cluster
-      # - name: Setup Environment
-      #   run: |
-      #     cd setup
-      #     ./init.sh
-      # - name: Deploy to Kubernetes
-      #   run: |
-      #     cd starter/backend/k8s 
-      #     kustomize edit set image backend=249802869937.dkr.ecr.us-east-1.amazonaws.com/backend:latest
-      #     kubectl apply -f -
+      - name: Deploy to Kubernetes
+        run: |
+          cd starter/backend/k8s 
+          kustomize edit set image backend=249802869937.dkr.ecr.us-east-1.amazonaws.com/backend:latest
+          kustomize build | kubectl apply -f -
