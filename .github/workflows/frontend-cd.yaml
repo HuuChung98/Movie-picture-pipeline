@@ -89,12 +89,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Install Minikube
-        run: |
-          curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
-          chmod +x minikube
-          sudo mv minikube /usr/local/bin/
-
       - name: Set up kubectl
         uses: azure/setup-kubectl@v4
         with:
@@ -106,11 +100,11 @@ jobs:
           aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY_UDACITY }}
           aws configure set aws_session_token ${{ secrets.AWS_SESSION_TOKEN_UDACITY }}
           aws configure set default.region us-east-1
-          aws eks update-kubeconfig --region us-east-1 --name cluster
           kubectl config view # Optional: To verify the kubeconfig content
 
       - name: Deploy to Kubernetes
         run: |
+          aws eks update-kubeconfig --region us-east-1 --name cluster
           cd starter/frontend/k8s
           kustomize edit set image frontend=249802869937.dkr.ecr.us-east-1.amazonaws.com/frontend:latest
           kustomize build | kubectl apply -f .
